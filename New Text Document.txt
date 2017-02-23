@@ -1,0 +1,178 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections;
+namespace Project7._2
+{
+    class Program
+    {
+        
+        public static ArrayList product = new ArrayList();
+        //List<Product> product = new List<Product>();
+        public void AddProduct()
+        {
+            Product p1 = new Product();
+            int no;
+            string name;
+            int rate;
+            int stock;
+            Console.WriteLine("Enter Product Number");
+            no = Convert.ToInt32(Console.ReadLine());
+            p1.ProductNo = no;
+            Console.WriteLine("Enter Product Name");
+            name = Console.ReadLine();
+            p1.Pname = name;
+            Console.WriteLine("Enter Product rate");
+            p1.Prate=Convert.ToInt32( Console.ReadLine());
+            Console.WriteLine("Enter Product Stock");
+            p1.Stock= Convert.ToInt32(Console.ReadLine());
+            product.Add(p1);
+        }
+        public void DisplayProduct()
+        {
+
+            //Product pro = (Product)product[0];
+            //int num=pro.ProductNo;
+            //Console.WriteLine(""+num);
+
+            Console.WriteLine("Enter Product Number you want to search");
+            int no = Convert.ToInt32(Console.ReadLine());
+            bool flag = false;
+            foreach (var item in product)
+            {
+                Product pro=(Product)item;
+                int num=pro.ProductNo;
+  
+                if (num==no)
+                {
+                    flag = true;
+                    Console.WriteLine("Product found");
+                    Console.WriteLine("Product No:{0}   Product Name:{1}    Product Rate:{2}    Product Stock:{3}   ", pro.ProductNo, pro.Pname, pro.Prate,pro.Stock);
+                    
+                }
+            }
+            if (flag ==false)
+            {
+                Console.WriteLine("Product not found");
+            }
+        }
+        public Product Search()
+        {
+            Console.WriteLine("Enter Product Number you want to Delete");
+            int no = Convert.ToInt32(Console.ReadLine());
+            bool flag = false;
+            foreach (var item in product)
+            {
+                
+                Product pro=(Product)item;
+                int num=pro.ProductNo;
+                if (pro.ProductNo.Equals(no))
+                {
+                    flag = true;
+                    Console.WriteLine("Product found");
+                    return pro;
+                }
+            }
+            if (flag == false)
+            {
+                Console.WriteLine("Product not found");
+            }
+            return null;
+        }
+        public void SaveContact()
+        {
+            bool flag = true;
+            for (int i = 1; i < (product.Count-1)&& flag; i++)
+            {
+                flag = false;
+                for (int j = 0; j < (product.Count-1); j++)
+                {
+                    Product pro1=(Product)product[j];
+                    Product pro2=(Product)product[j+1];
+                    if (pro2.ProductNo < pro1.ProductNo)
+                    {
+                        int tpno = pro1.ProductNo;
+                        pro1.ProductNo = pro2.ProductNo;
+                        pro2.ProductNo = tpno;
+                        string tname = pro1.Pname;
+                        pro1.Pname = pro2.Pname;
+                        pro2.Pname = tname;
+                        int trate = pro1.Prate;
+                        pro1.Prate = pro2.Prate;
+                        pro2.Prate = trate;
+                        int tstock=pro1.Stock;
+                        pro1.Stock = pro2.Stock;
+                        pro2.Stock = tstock;
+                        flag = true;
+                    }
+                }
+            }
+        }
+        public void DeleteContact()
+        {
+            product.Remove(Search());
+            Console.WriteLine("Product Deleted");
+        }
+        public void DisplayAllProduct()
+        {
+            foreach (var item in product)
+            {
+                Product pro = (Product)item;
+                Console.WriteLine("Product No:{0}   Product Name:{1}    Product Rate:{2}    Product Stock:{3}   ", pro.ProductNo, pro.Pname, pro.Prate, pro.Stock);
+                Console.WriteLine();
+                    
+            }
+        }
+        static void Main(string[] args)
+        {
+            Program p = new Program();
+            Console.WriteLine("++++++++++++++++++++++++++++++++++");
+            Console.WriteLine("         Contact Catalog");
+            Console.WriteLine("++++++++++++++++++++++++++++++++++");
+            while (true)
+            {
+
+                Console.WriteLine("Choices");
+                Console.WriteLine("------------------------------");
+                Console.WriteLine("1)Add Product");
+                Console.WriteLine("2)Search Product");
+                Console.WriteLine("3)Delete Product");
+                Console.WriteLine("4)Save product");
+                Console.WriteLine("5)Quit");
+                Console.WriteLine("6)Display");
+                Console.WriteLine("Enter a choice");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                if (choice == 1)
+                {
+                    p.AddProduct();
+                }
+                else if (choice == 2)
+                {
+                    p.DisplayProduct();
+                }
+                else if (choice == 3)
+                {
+                    p.DeleteContact();
+                }
+                else if (choice == 4)
+                {
+                    p.SaveContact();
+                }
+                else if (choice == 5)
+                {
+                    Environment.Exit(0);
+                }
+                else if (choice == 6)
+                {
+                    p.DisplayAllProduct();
+                }
+                else
+                {
+                    Console.WriteLine("Enter Correct Choice");
+                }
+            }
+        }
+    }
+}
